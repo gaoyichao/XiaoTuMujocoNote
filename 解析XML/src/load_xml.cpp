@@ -9,14 +9,59 @@ namespace fs = std::filesystem;
 
 tinyxml2::XMLElement * mjIncludeXML(tinyxml2::XMLElement* elem,
                                     std::string dir,
-                                    std::vector<std::string>& included)
+                                    std::vector<std::string>& included,
+                                    std::string prefix)
 {
     if (!strcasecmp(elem->Value(), "include")) {
-        std::cout << "lalalal" << std::endl;
-        return NULL;
+        if (!elem->NoChildren())
+            throw std::runtime_error("include 标签不能没有子节点");
+
+        // 获取引用文件路径
+        const char* pstr = elem->Attribute("file");
+        std::string filename = dir + "/" + pstr;
+        std::cout << filename << std::endl;
+
+        // 过滤重复的引用文件
+        for (size_t i = 0; i < included.size(); i++) {
+            if (filename == included[i])
+                throw std::runtime_error("重复引用文件");
+        }
+        
+        tinyxml2::XMLDocument doc;
+        doc.LoadFile(filename.c_str());
+        included.push_back(filename);
+
+        tinyxml2::XMLElement* docroot = doc.RootElement();
+        tinyxml2::XMLElement* eleminc = docroot->FirstChildElement();
+
+        std::cout << ">>>> " << docroot->Value() << std::endl;
+        std::cout << ">>>> " << eleminc->Value() << std::endl;
+        
+        tinyxml2::XMLElement* parent = (tinyxml2::XMLElement*)elem->Parent();
+        tinyxml2::XMLNode* first = parent->InsertAfterChild(elem, eleminc->DeepClone(parent->GetDocument()));
+        parent->DeleteChild(elem);
+        elem = first->ToElement();
+        eleminc = eleminc->NextSiblingElement();
+        while (eleminc) {
+            elem = (tinyxml2::XMLElement*)parent->InsertAfterChild(elem, eleminc->DeepClone(parent->GetDocument()));
+            eleminc = eleminc->NextSiblingElement();
+        }
+
+        prefix = prefix + "::" + first->Value();
+        std::cout << prefix << std::endl;
+        return mjIncludeXML(first->ToElement(), dir, included, prefix);
     } else {
-        std::cout << "hahah" << std::endl;
-        return NULL;
+        tinyxml2::XMLElement * child = elem->FirstChildElement();
+        while (child) {
+            prefix = prefix + "::" + child->Value();
+            std::cout << prefix << std::endl;
+            
+            child = mjIncludeXML(child, dir, included, prefix);
+            if (child) {
+                child = child->NextSiblingElement();
+            }
+        }
+        return elem;
     }
 }
 
@@ -46,7 +91,10 @@ int main(int argc, char * argv[])
     std::cout << "first child:" << first_child->Value() << std::endl;
     std::cout << "first child:" << first_child->GetLineNum() << std::endl;
 
+    std::cout << "---------------------" << std::endl;
     std::vector<std::string> included;
-    mjIncludeXML(root, p.parent_path(), included);
+    mjIncludeXML(root, p.parent_path(), included, root->Value());
+
+    doc.SaveFile("nibienao.xml");
 }
 
