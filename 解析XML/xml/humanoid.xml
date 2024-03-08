@@ -14,6 +14,9 @@
 -->
 
 <mujoco model="Humanoid">
+    <!--
+        你说啥
+    -->
   <option timestep="0.005"/>
 
   <visual>

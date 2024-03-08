@@ -7,6 +7,11 @@
 
 namespace fs = std::filesystem;
 
+/**
+ * @brief 解析 MJCF 文件的引用文件
+ * 
+ * ${mujuco}/src/xml/xml.cc
+ */
 tinyxml2::XMLElement * mjIncludeXML(tinyxml2::XMLElement* elem,
                                     std::string dir,
                                     std::vector<std::string>& included,
@@ -94,6 +99,14 @@ int main(int argc, char * argv[])
     std::cout << "---------------------" << std::endl;
     std::vector<std::string> included;
     mjIncludeXML(root, p.parent_path(), included, root->Value());
+
+    auto name = std::string(root->Attribute("model"));
+    std::cout << "模型名称:" << name << std::endl;
+
+    if (root->FirstChild() && root->FirstChild()->ToComment()) {
+        auto comment = std::string(root->FirstChild()->Value());
+        std::cout << "注释:" << comment << std::endl;
+    }
 
     doc.SaveFile("nibienao.xml");
 }
