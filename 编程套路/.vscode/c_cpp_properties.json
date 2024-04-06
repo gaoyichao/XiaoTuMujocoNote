@@ -1,0 +1,25 @@
+{
+    "env": {
+        "myIncludePath": [
+            "${workspaceFolder}/include",
+            "${workspaceFolder}/src"
+        ],
+        "myDefines": [
+            "DEBUG",
+            "MY_FEATURE=1"
+        ]
+    },
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "/usr/include",
+                "/home/gyc/Project/mujoco-2.3.7-linux-x86_64/mujoco-2.3.7/include"
+            ],
+            "intelliSenseMode": "linux-gcc-x64",
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c17"
+        }
+    ],
+    "version": 4
+}
