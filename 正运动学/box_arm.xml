@@ -1,0 +1,35 @@
+<mujoco> 
+    <option gravity="0 0 0"/>
+
+    <worldbody>
+        <light diffuse=".5 .5 .5" pos="0 0 3" dir="0 0 -1"/>
+        <geom type="plane" size="1 1 0.1" rgba=".9 0 0 1"/>
+        <body pos="0 0 0">
+            <joint type="hinge" axis="0 0 1" pos="0 0 -0.6"/>
+            <geom type="box" size=".3 .3 .1" rgba="0 .0 0.9 1"/>
+            <body pos="0 0 0.6">
+                <joint type="hinge" axis="0 1 0" pos="0 0 -0.57"/>
+                <geom type="box" size=".085 .085 .6" rgba="0 .0 0.9 1"/>
+                <body pos="0 0 1.0">
+                    <joint type="hinge" axis="0 1 0" pos="0 0 -0.4"/>
+                    <geom type="box" size=".075 .075 .4" rgba="0 .0 0.9 1"/>
+                    <body pos="0 0 0.45">
+                        <joint type="hinge" axis="1 0 0" pos="0 0 0"/>
+                        <geom type="box" size=".2 .05 .05" rgba="0 .0 0.9 1"/>
+                        <body>
+                            <joint type="hinge" axis="0 1 0" pos="0 0 0"/>
+                            <geom type="box" size=".05 .2 .05" rgba="0 .0 0.9 1"/>
+                            <body pos="0 0 0.25">
+                                <joint type="hinge" axis="0 0 1" pos="0 0 -0.2"/>
+                                <geom type="box" size=".05 .05 .2" rgba="0 .0 0.9 1"/>
+                                <body pos="0 0 0.25">
+                                    <geom type="sphere" size=".05" rgba="0 .0 0.9 1"/>
+                                </body>
+                            </body>
+                        </body>
+                    </body>
+                </body>
+            </body>
+        </body>
+    </worldbody>
+</mujoco>
