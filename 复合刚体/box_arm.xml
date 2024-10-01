@@ -1,0 +1,36 @@
+<mujoco> 
+    <option gravity="0 0 0"/>
+
+    <worldbody>
+        <light diffuse=".5 .5 .5" pos="0 0 3" dir="0 0 -1"/>
+        <geom type="plane" size="1 1 0.1" rgba=".9 0 0 1"/>
+        <body pos="0 0 0" name="基座">
+            <joint type="hinge" axis="0 0 1" pos="0 0 -0.6" name="肩关节Z"/>
+            <geom type="box" size=".3 .3 .1" rgba="0 .0 0.9 1"/>
+            <body pos="0 0 0.6" name="肩">
+                <joint type="hinge" axis="0 1 0" pos="0 0 -0.57" name="肩关节Y"/>
+                <geom type="box" size=".085 .085 .6" rgba="0 .0 0.9 1"/>
+                <body pos="0 0 1.0" name="大臂">
+                    <joint type="hinge" axis="0 1 0" pos="0 0 -0.4" name="轴关节Y"/>
+                    <geom type="box" size=".075 .075 .4" rgba="0 .0 0.9 1"/>
+                    <body pos="0 0 0.45" name="小臂">
+                        <joint type="hinge" axis="1 0 0" pos="0 0 0" name="腕关节X"/>
+                        <geom type="box" size=".2 .05 .05" rgba="0 .0 0.9 1"/>
+                        <body name="手掌1">
+                            <joint type="hinge" axis="0 1 0" pos="0 0 0" name="腕关节Y"/>
+                            <geom type="box" size=".05 .2 .05" rgba="0 .0 0.9 1"/>
+                            <body pos="0 0 0.25" name="手掌2">
+                                <joint type="hinge" axis="0 0 1" pos="0 0 -0.2" name="腕关节Z"/>
+                                <geom type="box" size=".05 .05 .2" rgba="0 .0 0.9 1"/>
+                                <body pos="0 0 0.25" name="执行末端">
+                                    <geom type="sphere" size=".05" rgba="0 .0 0.9 1" density="100000"/>
+                                </body>
+                            </body>
+                        </body>
+                    </body>
+                </body>
+            </body>
+
+        </body>
+    </worldbody>
+</mujoco>

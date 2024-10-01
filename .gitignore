@@ -1,4 +1,5 @@
 build/
 *.sw*
 .ycm_extra_conf.py
+.vscode/
 
